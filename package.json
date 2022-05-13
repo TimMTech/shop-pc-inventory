@@ -1,0 +1,25 @@
+{
+  "name": "shop-pc-inventory",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "async": "^3.2.3",
+    "dotenv": "^16.0.0",
+    "mongoose": "^6.3.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TimMTech/shop-pc-inventory.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TimMTech/shop-pc-inventory/issues"
+  },
+  "homepage": "https://github.com/TimMTech/shop-pc-inventory#readme"
+}

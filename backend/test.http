@@ -1,0 +1,7 @@
+POST http://localhost:5000/api/category
+Content-Type: application/json
+
+{
+    "title": "",
+    "description": ""
+}
