@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Manufacturers = ({manufacturers, handleShowForm}) => {
     return (
       <ManufacturerPageWrapper>
-        <Button onClick={handleShowForm}>Add Category</Button>
+        <Button onClick={handleShowForm}>Add Manufacturer</Button>
         {manufacturers.map((manufacturer) => {
           const { _id, title, description } = manufacturer;
           return (
@@ -61,7 +61,7 @@ const Button = styled.button`
   align-self: flex-start;
   margin-left: 2rem;
   margin-top: 0.5rem;
-  width: 8rem;
+  width: 10rem;
   color: rgb(255, 255, 255);
   border: 0.15rem solid rgb(245, 65, 15);
   border-radius: 0.5rem;

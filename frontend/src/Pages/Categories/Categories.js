@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const Categories = ({ categories, handleShowForm }) => {
+const Categories = ({ categories, handleShowForm}) => {
   return (
     <CategoryPageWrapper>
       <Button onClick={handleShowForm}>Add Category</Button>

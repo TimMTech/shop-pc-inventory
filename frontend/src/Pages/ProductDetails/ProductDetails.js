@@ -70,6 +70,7 @@ const MappedParts = styled.div`
 const Title = styled.h1`
   font-size: 4rem;
   padding-bottom: 2rem;
+  text-align: center;
 `;
 const Description = styled.p`
   font-size: 1.2rem;

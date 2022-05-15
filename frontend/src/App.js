@@ -16,7 +16,6 @@ import CategoryParts from "./Components/CategoryLinks/CategoryParts";
 import ManufacturerParts from "./Components/ManufacturerLinks/ManufacturerParts";
 import Nav from "./Components/Nav/Nav";
 
-
 // Page Imports //
 import Home from "./Pages/Home/Home";
 import Categories from "./Pages/Categories/Categories";
@@ -31,10 +30,10 @@ const App = () => {
   const [csv, setCsv] = useState([]);
 
   const [categories, setCategories] = useState([]);
+
   const [manufacturers, setManufacturers] = useState([]);
   const [parts, setParts] = useState([]);
   const [total, setTotal] = useState(0);
-
 
   const [selection, setSelection] = useState({
     chassis: [],
@@ -43,7 +42,7 @@ const App = () => {
     memory: [],
     motherboard: [],
   });
-  
+
   const [showForm, setShowForm] = useState({
     categoryForm: false,
     manufacturerForm: false,
@@ -75,10 +74,24 @@ const App = () => {
     });
   };
 
+  const closeCategoryForm = () => {
+    setShowForm({
+      ...showForm,
+      categoryForm: false,
+    });
+  };
+
   const manufacturerForm = () => {
     setShowForm({
       ...showForm,
       manufacturerForm: true,
+    });
+  };
+
+  const closeManufacturerForm = () => {
+    setShowForm({
+      ...showForm,
+      manufacturerForm: false,
     });
   };
 
@@ -152,12 +165,12 @@ const App = () => {
   const handleAddSelection = (findParts, category, _id) => {
     const trimmedCategory = category.toLowerCase().replace(/\s+/g, "");
     const matchKey = Object.keys(selection);
-    const filteredId = findParts.filter((part) => part._id === _id);
+    const filteredPart = findParts.filter((part) => part._id === _id);
     matchKey.forEach((key) => {
       if (key === trimmedCategory) {
         setSelection((prevState) => ({
           ...prevState,
-          [key]: filteredId,
+          [key]: filteredPart,
         }));
       }
     });
@@ -197,6 +210,7 @@ const App = () => {
           element={
             <Home
               thisSelection={selection}
+              categories={categories}
               totalPrice={total}
               csv={csv}
               handleCsv={handleCsv}
@@ -251,12 +265,14 @@ const App = () => {
         />
       </Routes>
       <AddCategory
+        closeForm={closeCategoryForm}
         showForm={showForm}
         handleChange={handleCategoryChange}
         inputValue={categoryInputs}
         handleCategorySubmit={handleCategorySubmit}
       />
       <AddManufacturer
+        closeForm={closeManufacturerForm}
         showForm={showForm}
         handleChange={handleManufacturerChange}
         inputValue={manufacturerInputs}

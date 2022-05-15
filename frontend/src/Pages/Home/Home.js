@@ -2,7 +2,7 @@ import styled from "styled-components";
 import MyList from "../../Components/MyList/MyList";
 import { CSVLink } from "react-csv";
 
-const Home = ({ thisSelection, totalPrice, csv, handleCsv }) => {
+const Home = ({ categories, totalPrice, csv, handleCsv, thisSelection }) => {
   return (
     <HomeWrapper>
       <CSVWrapper>
@@ -12,7 +12,7 @@ const Home = ({ thisSelection, totalPrice, csv, handleCsv }) => {
         </CSVLink>
       </CSVWrapper>
       <ListSection>
-        <MyList thisSelection={thisSelection} totalPrice={totalPrice} />
+        <MyList categories={categories} totalPrice={totalPrice} thisSelection={thisSelection}  />
       </ListSection>
     </HomeWrapper>
   );
@@ -21,7 +21,7 @@ const Home = ({ thisSelection, totalPrice, csv, handleCsv }) => {
 export default Home;
 
 const HomeWrapper = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   font-family: Montserrat ExtraBold;
   background-color: rgb(0, 0, 0, 0.88);
   display: flex;
