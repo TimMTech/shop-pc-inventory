@@ -102,6 +102,13 @@ const App = () => {
     });
   };
 
+  const closePartForm = () => {
+    setShowForm({
+      ...showForm,
+      partForm: false
+    })
+  }
+
   const handleCategoryChange = (e) => {
     const { name, value } = e.target;
     setCategoryInputs({
@@ -176,6 +183,7 @@ const App = () => {
     });
   };
 
+  console.log(parts)
   const calculateTotal = () => {
     let totalPrice = 0;
     const combinedArrayValues = Object.values(selection);
@@ -279,6 +287,9 @@ const App = () => {
         handleManufacturerSubmit={handleManufacturerSubmit}
       />
       <AddPart
+      categories={categories}
+      manufacturers={manufacturers}
+      closeForm={closePartForm}
         showForm={showForm}
         handleChange={handlePartChange}
         inputValue={partInputs}

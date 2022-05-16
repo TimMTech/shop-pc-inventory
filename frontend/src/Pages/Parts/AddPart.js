@@ -1,63 +1,254 @@
+import styled from "styled-components";
+import { motion, AnimatePresence } from "framer-motion";
+
+const backdrop = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+};
+
+const form = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+};
+
 const AddPart = ({
+  categories,
+  manufacturers,
   inputValue,
   showForm,
   handleChange,
   handlePartSubmit,
+  closeForm,
 }) => {
-  return (
-    <div>
-      {showForm.partForm && (
-        <form method="POST" action="/">
-          <input
-            name="title"
-            type="text"
-            value={inputValue.title}
-            onChange={(e) => handleChange(e)}
-            placeholder="Title"
-          />
-          <input
-            name="cost"
-            type="number"
-            value={inputValue.cost}
-            onChange={(e) => handleChange(e)}
-            placeholder="Cost"
-          />
-          <input
-            name="quantity"
-            type="number"
-            value={inputValue.quantity}
-            onChange={(e) => handleChange(e)}
-            placeholder="Quantity"
-          />
-          <input
-            name="description"
-            type="text"
-            value={inputValue.description}
-            onChange={(e) => handleChange(e)}
-            placeholder="Description"
-          />
-          <input
-            name="category"
-            type="text"
-            value={inputValue.category}
-            onChange={(e) => handleChange(e)}
-            placeholder="Category"
-          />
-          <input
-            name="manufacturer"
-            type="text"
-            value={inputValue.manufacturer}
-            onChange={(e) => handleChange(e)}
-            placeholder="Manufacturer"
-          />
+  const categoryOptions = categories.map((category) => category);
+  const manufacturerOptions = manufacturers.map((manufacturer) => manufacturer);
 
-          <button type="button" onClick={handlePartSubmit}>
-            Add Part
-          </button>
-        </form>
+  return (
+    <AnimatePresence>
+      {showForm.partForm && (
+        <>
+          <Modal
+            variants={backdrop}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            onClick={closeForm}
+            transition={{ ease: "easeOut", duration: 0.5 }}
+          />
+          <FormWrapper
+            variants={form}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            transition={{ ease: "easeOut", duration: 0.5 }}
+          >
+            <Form method="POST" action="/">
+              <CloseIcon onClick={closeForm}>X</CloseIcon>
+              <FormTitle>Create A Part</FormTitle>
+              <TextArea
+                name="title"
+                type="text"
+                value={inputValue.title}
+                onChange={(e) => handleChange(e)}
+                placeholder="Title"
+              />
+              <NumericDiv>
+                <CostTitle>Cost</CostTitle>
+                <StyledInput
+                  name="cost"
+                  type="number"
+                  value={inputValue.cost}
+                  onChange={(e) => handleChange(e)}
+                />
+                <QuantityTitle>Quantity</QuantityTitle>
+                <StyledInput
+                  name="quantity"
+                  type="number"
+                  value={inputValue.quantity}
+                  onChange={(e) => handleChange(e)}
+                />
+              </NumericDiv>
+              <TextArea
+                name="description"
+                type="text"
+                value={inputValue.description}
+                onChange={(e) => handleChange(e)}
+                placeholder="Description"
+              />
+              <OptionDiv>
+                <CategoryMenu
+                  autoComplete="off"
+                  list="categories"
+                  name="category"
+                  type="text"
+                  value={inputValue.category}
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Category"
+                >
+                  {categoryOptions.map((categories) => {
+                    const { _id, title } = categories;
+                    return <Option key={_id}>{title}</Option>;
+                  })}
+                </CategoryMenu>
+                <ManufacturerMenu
+                  autoComplete="off"
+                  list="manufacturers"
+                  name="manufacturer"
+                  type="text"
+                  value={inputValue.manufacturer}
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Manufacturer"
+                >
+                  {manufacturerOptions.map((manufacturer) => {
+                    const { _id, title } = manufacturer;
+                    return <Option key={_id}>{title}</Option>;
+                  })}
+                </ManufacturerMenu>
+              </OptionDiv>
+
+              <Button type="button" onClick={handlePartSubmit}>
+                Add Part
+              </Button>
+            </Form>
+          </FormWrapper>
+        </>
       )}
-    </div>
+    </AnimatePresence>
   );
 };
 
 export default AddPart;
+
+const Modal = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000000dd;
+  z-index: 9;
+`;
+
+const FormWrapper = styled(motion.div)`
+  position: fixed;
+  top: 5%;
+  left: 35%;
+  width: 500px;
+  height: 700px;
+  background: rgba(0, 0, 0, 1);
+  border: 0.3rem solid rgb(255, 255, 255);
+  z-index: 10;
+  overflow-y: scroll;
+`;
+
+const Form = styled.form`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
+const FormTitle = styled.h1`
+  color: rgb(255, 255, 255);
+  font-family: Montserrat Bold;
+`;
+
+const NumericDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const CostTitle = styled.p`
+  color: rgb(255, 255, 255);
+  padding: 1rem;
+`;
+
+const QuantityTitle = styled.p`
+  color: rgb(255, 255, 255);
+  padding: 1rem;
+`;
+
+const StyledInput = styled.input`
+  width: 15%;
+  height: 4rem;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  word-wrap: break-word;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const TextArea = styled.textarea`
+  width: 75%;
+  height: 4rem;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  word-wrap: break-word;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const OptionDiv = styled.div`
+  display: flex;
+  height: 3rem;
+  gap: 0.5rem;
+`;
+
+const CategoryMenu = styled.select`
+  width: 60%;
+  height: 3rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  word-wrap: break-word;
+  &:focus {
+    outline: none;
+  }
+`;
+const ManufacturerMenu = styled.select`
+  width: 60%;
+  height: 3rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  word-wrap: break-word;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const CategoryList = styled.datalist``;
+
+const ManufacturerList = styled.datalist``;
+
+const Option = styled.option``;
+
+const Button = styled.button`
+  width: 10rem;
+  color: rgb(255, 255, 255);
+  border: 0.15rem solid rgb(245, 65, 15);
+  border-radius: 0.5rem;
+  font-family: Montserrat Bold;
+  background-color: transparent;
+  padding: 0.5rem;
+  transition: 1s;
+  cursor: pointer;
+  &: hover {
+    font-weight: 900;
+    color: rgb(255, 87, 51);
+  }
+`;
+
+const CloseIcon = styled.span`
+  font-family: "Montserrat Bold";
+  color: rgb(255, 255, 255);
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 1s;
+`;
