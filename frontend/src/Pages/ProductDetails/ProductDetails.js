@@ -77,7 +77,7 @@ const Description = styled.p`
   padding-bottom: 0.5rem;
   font-family: Montserrat Light;
   width: 75%;
-  
+  text-align: center;
 
 `;
 
