@@ -10,7 +10,8 @@ import postCategories from "./Utils/API/postCategories";
 import postManufacturers from "./Utils/API/postManufacturers";
 import postParts from "./Utils/API/postParts";
 import { pageReload } from "./Utils/Helpers/pageReload";
-import { saveToLocalStorage } from "./Utils/Helpers/setLocalStorage";
+import { saveToLocalStorage } from "./Utils/Helpers/saveToLocalStorage";
+import { formatLowerCase } from "./Utils/Helpers/formatText";
 
 // Component Imports //
 import CategoryParts from "./Components/CategoryLinks/CategoryParts";
@@ -135,7 +136,7 @@ const App = () => {
   };
 
   const handleCategorySubmit = () => {
-    const newSelections = { ...selection, [categoryInputs.title]: [] };
+    const newSelections = { ...selection, [formatLowerCase(categoryInputs.title)]: [] };
     postCategories(categoryInputs);
     setShowForm({
       ...showForm,
@@ -171,48 +172,37 @@ const App = () => {
   };
 
   const handleAddSelection = (findParts, category, _id) => {
-    const currentSelections = selection
+    const currentSelections = selection;
     const matchKey = Object.keys(currentSelections);
     matchKey.forEach((key) => {
       const trimmedCategory = category.toLowerCase().replace(/\s+/g, "");
       const filteredPart = findParts.filter((part) => part._id === _id);
       if (key === trimmedCategory) {
-        
         setSelection((prevState) => ({
           ...prevState,
-          [key]: filteredPart,
+          [formatLowerCase(key)]: filteredPart,
         }));
-        console.log(selection);
+        saveToLocalStorage({
+          ...selection,
+          [formatLowerCase(key)]: filteredPart,
+        });
       }
     });
-    calculateTotal();
   };
 
-  
-  const calculateTotal = () => {
+  const calculateTotal = useCallback(() => {
     let totalPrice = 0;
     const combinedArrayValues = Object.values(selection);
     combinedArrayValues.forEach((array) => {
       array.forEach((obj) => {
         const total = obj.cost * 1;
         totalPrice += total;
-        console.log(obj);
       });
       setTotal(totalPrice);
     });
-  };
+  }, [selection]);
 
   useEffect(() => {
-    getCategories((categories) => {
-      setCategories(categories);
-    });
-    getManufacturers((manufacturers) => {
-      setManufacturers(manufacturers);
-    });
-    getParts((parts) => {
-      setParts(parts);
-    });
-
     let mySelections;
     if (localStorage.getItem("selections") === null) {
       mySelections = {
@@ -226,7 +216,20 @@ const App = () => {
       mySelections = JSON.parse(localStorage.getItem("selections"));
       setSelection(mySelections);
     }
+    getCategories((categories) => {
+      setCategories(categories);
+    });
+    getManufacturers((manufacturers) => {
+      setManufacturers(manufacturers);
+    });
+    getParts((parts) => {
+      setParts(parts);
+    });
   }, []);
+
+  useEffect(() => {
+    calculateTotal();
+  }, [calculateTotal, selection]);
 
   return (
     <>

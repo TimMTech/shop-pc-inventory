@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
+import { formatUpperCase } from "../../Utils/Helpers/formatText";
 
 const backdrop = {
   visible: { opacity: 1 },
@@ -87,7 +88,11 @@ const AddPart = ({
                 >
                   {categoryOptions.map((categories) => {
                     const { _id, title } = categories;
-                    return <Option key={_id}>{title}</Option>;
+                    return (
+                      <Option key={_id}>
+                        {formatUpperCase(title)}
+                      </Option>
+                    );
                   })}
                 </CategoryMenu>
                 <ManufacturerMenu
@@ -101,7 +106,7 @@ const AddPart = ({
                 >
                   {manufacturerOptions.map((manufacturer) => {
                     const { _id, title } = manufacturer;
-                    return <Option key={_id}>{title}</Option>;
+                    return <Option key={_id}>{formatUpperCase(title)}</Option>;
                   })}
                 </ManufacturerMenu>
               </OptionDiv>

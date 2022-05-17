@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom";
+import { formatUpperCase } from "../../Utils/Helpers/formatText";
 
 const Manufacturers = ({manufacturers, handleShowForm}) => {
     return (
@@ -10,7 +11,7 @@ const Manufacturers = ({manufacturers, handleShowForm}) => {
           return (
             <MappedManufacturers key={_id}>
               <StyledLink to={`/manufacturers/${title}`}>
-                <Title>{title}</Title>
+                <Title>{formatUpperCase(title)}</Title>
               </StyledLink>
               <Description>{description}</Description>
             </MappedManufacturers>

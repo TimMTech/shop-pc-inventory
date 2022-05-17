@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { formatUpperCase } from "../../Utils/Helpers/formatText";
 
 const Categories = ({ categories, handleShowForm}) => {
   return (
@@ -10,7 +11,7 @@ const Categories = ({ categories, handleShowForm}) => {
         return (
           <MappedCategories key={_id}>
             <StyledLink to={`/categories/${title}`}>
-              <Title>{title}</Title>
+              <Title>{formatUpperCase(title)}</Title>
             </StyledLink>
             <Description>{description}</Description>
           </MappedCategories>

@@ -1,20 +1,18 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { formatUpperCase } from "../../Utils/Helpers/formatText";
 
 const CategoryItems = ({ categories, thisSelection }) => {
   const findSelection = Object.values(thisSelection);
   const flatArray = findSelection.flat(1);
-  
+
   return (
     <>
       {categories.map((category) => {
         return (
           <TableRow key={category._id}>
             <TableData>
-              <Part>
-                {category.title.charAt(0).toUpperCase() +
-                  category.title.slice(1)}
-              </Part>
+              <Part>{formatUpperCase(category.title)}</Part>
             </TableData>
             <TableData>
               {flatArray.find((part) => part.category === category.title) ? (
@@ -32,16 +30,10 @@ const CategoryItems = ({ categories, thisSelection }) => {
                 </SelectedPart>
               ) : (
                 <SelectionButton
-                  id={
-                    category.title.charAt(0).toUpperCase() +
-                    category.title.slice(1)
-                  }
-                  to={`/categories/${
-                    category.title.charAt(0).toUpperCase() +
-                    category.title.slice(1)
-                  }`}
+                  id={formatUpperCase(category.title)}
+                  to={`/categories/${formatUpperCase(category.title)}`}
                 >
-                  Choose Your {category.title}
+                  Choose Your {formatUpperCase(category.title)}
                 </SelectionButton>
               )}
             </TableData>
@@ -94,8 +86,12 @@ const SelectionButton = styled(Link)`
 const SelectedPart = styled.div``;
 
 const SelectedTitle = styled(Link)`
-  text-decoration: none;
-  color: rgb(255,255,255);
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  text-decoration-color: rgba(255, 255, 255, 0);
+  transition: text-decoration-color 1s;
+  &: hover {
+    text-decoration: underline 0.1em rgba(255, 255, 255, 1);
 `;
 
 const Price = styled.h1`

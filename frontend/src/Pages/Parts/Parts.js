@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { formatUpperCase } from "../../Utils/Helpers/formatText";
 
 const Parts = ({ parts, addSelection, handleShowForm }) => {
   return (
@@ -21,7 +22,7 @@ const Parts = ({ parts, addSelection, handleShowForm }) => {
           <MappedParts key={_id}>
             <PartWrapper>
               <StyledLink to={`/part/${_id}`}>
-                <Title>{title}</Title>
+                <Title>{formatUpperCase(title)}</Title>
               </StyledLink>
               <Price>${cost}</Price>
               <Quantity>In Stock: {quantity}</Quantity>
