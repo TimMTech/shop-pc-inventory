@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const CategoryItems = ({ categories, thisSelection }) => {
   const findSelection = Object.values(thisSelection);
   const flatArray = findSelection.flat(1);
-  console.log(flatArray);
+  
   return (
     <>
       {categories.map((category) => {

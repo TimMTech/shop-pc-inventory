@@ -1,6 +1,6 @@
 // React Library Imports //
 import { Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 // Utility Imports //
 import getCategories from "./Utils/API/getCategories";
@@ -10,6 +10,7 @@ import postCategories from "./Utils/API/postCategories";
 import postManufacturers from "./Utils/API/postManufacturers";
 import postParts from "./Utils/API/postParts";
 import { pageReload } from "./Utils/Helpers/pageReload";
+import { saveToLocalStorage } from "./Utils/Helpers/setLocalStorage";
 
 // Component Imports //
 import CategoryParts from "./Components/CategoryLinks/CategoryParts";
@@ -105,9 +106,9 @@ const App = () => {
   const closePartForm = () => {
     setShowForm({
       ...showForm,
-      partForm: false
-    })
-  }
+      partForm: false,
+    });
+  };
 
   const handleCategoryChange = (e) => {
     const { name, value } = e.target;
@@ -134,12 +135,14 @@ const App = () => {
   };
 
   const handleCategorySubmit = () => {
+    const newSelections = { ...selection, [categoryInputs.title]: [] };
     postCategories(categoryInputs);
     setShowForm({
       ...showForm,
       categoryForm: false,
     });
-    pageReload();
+    setSelection(newSelections);
+    saveToLocalStorage(newSelections);
   };
 
   const handleManufacturerSubmit = () => {
@@ -148,7 +151,6 @@ const App = () => {
       ...showForm,
       manufacturerForm: false,
     });
-    pageReload();
   };
 
   const handlePartSubmit = () => {
@@ -157,7 +159,6 @@ const App = () => {
       ...showForm,
       partForm: false,
     });
-    pageReload();
   };
 
   const handleCsv = () => {
@@ -170,20 +171,24 @@ const App = () => {
   };
 
   const handleAddSelection = (findParts, category, _id) => {
-    const trimmedCategory = category.toLowerCase().replace(/\s+/g, "");
-    const matchKey = Object.keys(selection);
-    const filteredPart = findParts.filter((part) => part._id === _id);
+    const currentSelections = selection
+    const matchKey = Object.keys(currentSelections);
     matchKey.forEach((key) => {
+      const trimmedCategory = category.toLowerCase().replace(/\s+/g, "");
+      const filteredPart = findParts.filter((part) => part._id === _id);
       if (key === trimmedCategory) {
+        
         setSelection((prevState) => ({
           ...prevState,
           [key]: filteredPart,
         }));
+        console.log(selection);
       }
     });
+    calculateTotal();
   };
 
-  console.log(parts)
+  
   const calculateTotal = () => {
     let totalPrice = 0;
     const combinedArrayValues = Object.values(selection);
@@ -191,8 +196,9 @@ const App = () => {
       array.forEach((obj) => {
         const total = obj.cost * 1;
         totalPrice += total;
+        console.log(obj);
       });
-      setTotal(totalPrice.toFixed(2));
+      setTotal(totalPrice);
     });
   };
 
@@ -206,8 +212,21 @@ const App = () => {
     getParts((parts) => {
       setParts(parts);
     });
-    calculateTotal();
-  }, [selection]);
+
+    let mySelections;
+    if (localStorage.getItem("selections") === null) {
+      mySelections = {
+        chassis: [],
+        processor: [],
+        gpu: [],
+        memory: [],
+        motherboard: [],
+      };
+    } else {
+      mySelections = JSON.parse(localStorage.getItem("selections"));
+      setSelection(mySelections);
+    }
+  }, []);
 
   return (
     <>
@@ -253,7 +272,11 @@ const App = () => {
         <Route
           path="/categories/:title"
           element={
-            <CategoryParts parts={parts} addSelection={handleAddSelection} />
+            <CategoryParts
+              parts={parts}
+              addSelection={handleAddSelection}
+              calculateTotal={calculateTotal}
+            />
           }
         />
         <Route
@@ -287,9 +310,9 @@ const App = () => {
         handleManufacturerSubmit={handleManufacturerSubmit}
       />
       <AddPart
-      categories={categories}
-      manufacturers={manufacturers}
-      closeForm={closePartForm}
+        categories={categories}
+        manufacturers={manufacturers}
+        closeForm={closePartForm}
         showForm={showForm}
         handleChange={handlePartChange}
         inputValue={partInputs}
