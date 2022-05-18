@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { formatUpperCase } from "../../Utils/Helpers/formatText";
 
-const CategoryItems = ({ categories, thisSelection }) => {
+const CategoryItems = ({ categories, thisSelection, removeSelection }) => {
   const findSelection = Object.values(thisSelection);
   const flatArray = findSelection.flat(1);
 
@@ -20,11 +20,15 @@ const CategoryItems = ({ categories, thisSelection }) => {
                   {flatArray
                     .filter((part) => part.category === category.title)
                     .map((part) => {
-                      const { _id, title } = part;
+                      const { _id, title, category } = part;
                       return (
-                        <SelectedTitle key={_id} to={`/part/${_id}`}>
-                          {title}
-                        </SelectedTitle>
+                        <SelectedWrapper key={_id} >
+                          <SelectedTitle to={`/part/${_id}`}>
+                            {title}
+                            
+                          </SelectedTitle>
+                          <DeleteButton  onClick={() => removeSelection(_id, category)}>X</DeleteButton>
+                        </SelectedWrapper>
                       );
                     })}
                 </SelectedPart>
@@ -56,6 +60,7 @@ export default CategoryItems;
 
 const TableRow = styled.tr`
   color: rgb(255, 255, 255);
+  
 `;
 
 const TableData = styled.td`
@@ -63,6 +68,7 @@ const TableData = styled.td`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-bottom: 0.1rem solid black;
 `;
 const Part = styled.h1`
   font-family: Montserrat Light;
@@ -83,7 +89,25 @@ const SelectionButton = styled(Link)`
   }
 `;
 
+const DeleteButton = styled.button`
+  font-family: Montserrat Bold;
+  padding: 0.3rem;
+  border: 0.15rem solid rgb(245, 65, 15);
+  background-color: transparent;
+  margin-left: 1.5rem;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  transition: 1s;
+  cursor: pointer;
+  &: hover {
+    color: rgb(255, 87, 51);
+  }
+`;
+
 const SelectedPart = styled.div``;
+
+const SelectedWrapper = styled.div`
+`
 
 const SelectedTitle = styled(Link)`
   cursor: pointer;
@@ -93,6 +117,8 @@ const SelectedTitle = styled(Link)`
   &: hover {
     text-decoration: underline 0.1em rgba(255, 255, 255, 1);
 `;
+
+
 
 const Price = styled.h1`
   font-family: Montserrat Light;

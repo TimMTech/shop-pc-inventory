@@ -55,14 +55,17 @@ const AddPart = ({
               />
               <NumericDiv>
                 <CostTitle>Cost</CostTitle>
-                <StyledInput
-                  name="cost"
-                  type="number"
-                  value={inputValue.cost}
-                  onChange={(e) => handleChange(e)}
-                />
+                <TextBox>
+                  <Currency>$</Currency>
+                  <CostInput
+                    name="cost"
+                    type="number"
+                    value={inputValue.cost}
+                    onChange={(e) => handleChange(e)}
+                  />
+                </TextBox>
                 <QuantityTitle>Quantity</QuantityTitle>
-                <StyledInput
+                <QuantityInput
                   name="quantity"
                   type="number"
                   value={inputValue.quantity}
@@ -88,11 +91,7 @@ const AddPart = ({
                 >
                   {categoryOptions.map((categories) => {
                     const { _id, title } = categories;
-                    return (
-                      <Option key={_id}>
-                        {formatUpperCase(title)}
-                      </Option>
-                    );
+                    return <Option key={_id}>{formatUpperCase(title)}</Option>;
                   })}
                 </CategoryMenu>
                 <ManufacturerMenu
@@ -124,6 +123,8 @@ const AddPart = ({
 
 export default AddPart;
 
+
+
 const Modal = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -137,7 +138,7 @@ const Modal = styled(motion.div)`
 const FormWrapper = styled(motion.div)`
   position: fixed;
   top: 5%;
-  left: 35%;
+  left: 33%;
   width: 500px;
   height: 700px;
   background: rgba(0, 0, 0, 1);
@@ -164,24 +165,63 @@ const NumericDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+`;
+
+const TextBox = styled.div`
+  box-sizing: border-box;
+  background-color: white;
+  
+`;
+
+const Currency = styled.span`
+  font-size: 1.5rem;
+  display: inline;
 `;
 
 const CostTitle = styled.p`
   color: rgb(255, 255, 255);
-  padding: 1rem;
+  padding: 0.5rem;
 `;
 
 const QuantityTitle = styled.p`
   color: rgb(255, 255, 255);
-  padding: 1rem;
+  padding: 0.5rem;
 `;
 
-const StyledInput = styled.input`
+const CostInput = styled.input`
+
+  width: 10rem;
+  display: inline;
+  border: none;
+  height: 4rem;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  word-wrap: break-word;
+  text-align: left;
+  ::-webkit-inner-spin-button,
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
+const QuantityInput = styled.input`
+  border: none;
   width: 15%;
   height: 4rem;
   padding: 0.5rem;
   font-size: 1.5rem;
   word-wrap: break-word;
+  text-align: center;
+  ::-webkit-inner-spin-button,
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
   &:focus {
     outline: none;
   }

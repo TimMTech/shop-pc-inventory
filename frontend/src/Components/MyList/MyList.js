@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import CategoryItems from "./CategoryItems"
 
-const MyList = ({ categories, totalPrice, thisSelection }) => {
+const MyList = ({ categories, totalPrice, thisSelection, removeSelection }) => {
   return (
     <>
       <TableWrapper>
@@ -21,7 +21,7 @@ const MyList = ({ categories, totalPrice, thisSelection }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <CategoryItems categories={categories} thisSelection={thisSelection} />
+            <CategoryItems categories={categories} thisSelection={thisSelection} removeSelection={removeSelection} />
          </TableBody>
         </Table>
       </TableWrapper>

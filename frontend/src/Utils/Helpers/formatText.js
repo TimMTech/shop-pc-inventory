@@ -5,3 +5,7 @@ export const formatUpperCase = (text) => {
 export const formatLowerCase = (text) => {
     return text.charAt(0).toLowerCase() + text.slice(1)
 }
+
+export const formatTrim = (text) => {
+    return text.toLowerCase().replace(/\s+/g, "");
+}

@@ -11,7 +11,7 @@ import postManufacturers from "./Utils/API/postManufacturers";
 import postParts from "./Utils/API/postParts";
 import { pageReload } from "./Utils/Helpers/pageReload";
 import { saveToLocalStorage } from "./Utils/Helpers/saveToLocalStorage";
-import { formatLowerCase } from "./Utils/Helpers/formatText";
+import { formatLowerCase, formatTrim } from "./Utils/Helpers/formatText";
 
 // Component Imports //
 import CategoryParts from "./Components/CategoryLinks/CategoryParts";
@@ -136,7 +136,10 @@ const App = () => {
   };
 
   const handleCategorySubmit = () => {
-    const newSelections = { ...selection, [formatLowerCase(categoryInputs.title)]: [] };
+    const newSelections = {
+      ...selection,
+      [formatLowerCase(categoryInputs.title)]: [],
+    };
     postCategories(categoryInputs);
     setShowForm({
       ...showForm,
@@ -175,7 +178,7 @@ const App = () => {
     const currentSelections = selection;
     const matchKey = Object.keys(currentSelections);
     matchKey.forEach((key) => {
-      const trimmedCategory = category.toLowerCase().replace(/\s+/g, "");
+      const trimmedCategory = formatTrim(category);
       const filteredPart = findParts.filter((part) => part._id === _id);
       if (key === trimmedCategory) {
         setSelection((prevState) => ({
@@ -185,6 +188,32 @@ const App = () => {
         saveToLocalStorage({
           ...selection,
           [formatLowerCase(key)]: filteredPart,
+        });
+      }
+    });
+  };
+
+  const handleRemoveSelection = (_id, category) => {
+    const currentSelections = selection;
+    const matchValue = Object.values(currentSelections);
+    const matchKey = Object.keys(currentSelections);
+    const trimmedCategory = formatTrim(category);
+
+    matchKey.forEach((key) => {
+      const filteredMatchValue = matchValue
+        .flat(1)
+        .filter((part) => part._id !== _id);
+      const filteredSelections = filteredMatchValue.filter(
+        (part) => part._id === _id
+      );
+      if (key === trimmedCategory) {
+        setSelection((prevState) => ({
+          ...prevState,
+          [formatLowerCase(key)]: filteredSelections,
+        }));
+        saveToLocalStorage({
+          ...selection,
+          [formatLowerCase(key)]: filteredSelections,
         });
       }
     });
@@ -244,6 +273,7 @@ const App = () => {
               totalPrice={total}
               csv={csv}
               handleCsv={handleCsv}
+              removeSelection={handleRemoveSelection}
             />
           }
         />
