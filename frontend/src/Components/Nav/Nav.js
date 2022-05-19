@@ -1,14 +1,32 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Hamburger from "./Hamburger";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const Nav = () => {
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
 
+  const ref = useRef(null);
+
   const toggleHamburger = () => {
     setHamburgerOpen(!hamburgerOpen);
   };
+
+  const closeNav = () => {
+    setHamburgerOpen(false)
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setHamburgerOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
 
   return (
     <NavWrapper>
@@ -16,10 +34,10 @@ const Nav = () => {
         <StyledLink to={"/"}>PC INVENTORY</StyledLink>
       </NavTitle>
       <MenuWrapper>
-        <NavList toggleMenu={hamburgerOpen}>
-          <StyledLink to={"/categories"}>Categories</StyledLink>
-          <StyledLink to={"/manufacturers"}>Manufacturers</StyledLink>
-          <StyledLink to={"/parts"}>Parts</StyledLink>
+        <NavList toggleMenu={hamburgerOpen} ref={ref}>
+          <StyledLink to={"/categories"} onClick={closeNav}>Categories</StyledLink>
+          <StyledLink to={"/manufacturers"} onClick={closeNav}>Manufacturers</StyledLink>
+          <StyledLink to={"/parts"} onClick={closeNav}>Parts</StyledLink>
         </NavList>
         <HamburgerMenu onClick={toggleHamburger}>
           <Hamburger />
