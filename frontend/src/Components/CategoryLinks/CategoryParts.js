@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const CategoryParts = ({ parts, addSelection, calculateTotal }) => {
+const CategoryParts = ({ parts, addSelection }) => {
   const { title } = useParams();
 
   const findParts = parts.filter((part) => part.category === title);
