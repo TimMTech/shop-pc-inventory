@@ -145,6 +145,12 @@ const FormWrapper = styled(motion.div)`
   border: 0.3rem solid rgb(255, 255, 255);
   z-index: 10;
   overflow-y: scroll;
+  @media (max-width: 750px) {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  };
 `;
 
 const Form = styled.form`
@@ -159,6 +165,9 @@ const Form = styled.form`
 const FormTitle = styled.h1`
   color: rgb(255, 255, 255);
   font-family: Montserrat Bold;
+  @media (max-width: 750px) {
+    text-align: center;
+  };
 `;
 
 const NumericDiv = styled.div`

@@ -22,12 +22,15 @@ const CategoryItems = ({ categories, thisSelection, removeSelection }) => {
                     .map((part) => {
                       const { _id, title, category } = part;
                       return (
-                        <SelectedWrapper key={_id} >
+                        <SelectedWrapper key={_id}>
                           <SelectedTitle to={`/part/${_id}`}>
                             {title}
-                            
                           </SelectedTitle>
-                          <DeleteButton  onClick={() => removeSelection(_id, category)}>X</DeleteButton>
+                          <DeleteButton
+                            onClick={() => removeSelection(_id, category)}
+                          >
+                            X
+                          </DeleteButton>
                         </SelectedWrapper>
                       );
                     })}
@@ -60,7 +63,13 @@ export default CategoryItems;
 
 const TableRow = styled.tr`
   color: rgb(255, 255, 255);
-  
+  @media (max-width: 750px) {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 0.2rem solid rgb(0, 0, 0);
+    padding-bottom: 3rem;
+    padding-right: 3rem;
+  }
 `;
 
 const TableData = styled.td`
@@ -68,8 +77,13 @@ const TableData = styled.td`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-bottom: 0.1rem solid black;
+  border-bottom: 0.1rem solid rgb(0, 0, 0);
+  @media (max-width: 750px) {
+    border: none;
+    padding: 0.4rem;
+  }
 `;
+
 const Part = styled.h1`
   font-family: Montserrat Light;
 `;
@@ -107,7 +121,9 @@ const DeleteButton = styled.button`
 const SelectedPart = styled.div``;
 
 const SelectedWrapper = styled.div`
-`
+  display: flex;
+  align-items: center;
+`;
 
 const SelectedTitle = styled(Link)`
   cursor: pointer;
@@ -116,9 +132,11 @@ const SelectedTitle = styled(Link)`
   transition: text-decoration-color 1s;
   &: hover {
     text-decoration: underline 0.1em rgba(255, 255, 255, 1);
+  }
+  @media (max-width: 750px) {
+    font-size: 1.5rem;
+  }
 `;
-
-
 
 const Price = styled.h1`
   font-family: Montserrat Light;

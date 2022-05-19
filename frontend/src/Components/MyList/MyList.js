@@ -37,6 +37,7 @@ const TableWrapper = styled.div`
   justify-content: center;
   align-items: center;
   cursor: default;
+  
 `;
 
 const Table = styled.table`
@@ -55,41 +56,18 @@ const TableHeaders = styled.th`
   border-bottom: 0.15rem solid rgba(0, 0, 0, 0.3);
   padding: 1.2rem;
   font-size: 1.3rem;
+  @media (max-width: 750px) {
+    display: none;
+  }
 `;
 
 const TableBody = styled.tbody``;
 
-const TableData = styled.td`
-  padding: 1.2rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
+
 
 const ListHeader = styled.h1``;
 
-const Part = styled.h1`
-  font-family: Montserrat Light;
-`;
 
-const Selection = styled(Link)`
-  font-family: Montserrat Bold;
-  padding: 0.3rem;
-  border: 0.15rem solid rgb(245, 65, 15);
-  background-color: transparent;
-  border-radius: 0.8rem;
-  text-decoration: none;
-  color: rgb(255, 255, 255);
-  transition: 1s;
-  cursor: pointer;
-  &: hover {
-    color: rgb(255, 87, 51);
-  }
-`;
-
-const Price = styled.h1`
-  font-family: Montserrat Light;
-`;
 
 const SubTotal = styled.p`
   color: rgb(255, 255, 255);
