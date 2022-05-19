@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom"
 
 const Hamburger = ({handleNavToggle}) => {
     return (
@@ -31,12 +30,3 @@ const Burger = styled.div`
     transition: all 0.3s linear;
 `
 
-const StyledLink = styled(Link)`
-  cursor: pointer;
-  color: rgb(255, 255, 255);
-  text-decoration-color: rgba(255, 255, 255, 0);
-  transition: text-decoration-color 1s;
-  &: hover {
-    text-decoration: underline 0.1em rgba(255, 255, 255, 1);
-  }
-`;

@@ -22,7 +22,6 @@ const Nav = () => {
           <StyledLink to={"/parts"}>Parts</StyledLink>
         </NavList>
         <HamburgerMenu onClick={toggleHamburger}>
-          {console.log(hamburgerOpen)}
           <Hamburger />
         </HamburgerMenu>
       </MenuWrapper>
@@ -57,15 +56,15 @@ const NavList = styled.ul`
     display: ${(props) => (props.toggleMenu ? "flex" : "none")};
     font-size: 1.5rem;
     gap: 3rem;
-    border: 0.2rem solid rgb(255,255,255);
+    border: 0.2rem solid rgb(255, 255, 255);
     border-radius: 0.5rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(0, 0, 0, 0.9);
     height: 40%;
     width: 15rem;
-    margin-top:50px;
+    margin-top: 50px;
     position: fixed;
     right: 6%;
     top: 0;
