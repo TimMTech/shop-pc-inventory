@@ -74,6 +74,7 @@ const NavList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   float: right;
+  gap: 2rem;
   overflow: hidden;
   @media (max-width: 750px) {
     display: ${(props) => (props.toggleMenu ? "flex" : "none")};
