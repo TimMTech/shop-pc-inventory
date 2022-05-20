@@ -9,12 +9,12 @@ const Nav = () => {
   const ref = useRef(null);
 
   const toggleHamburger = () => {
-    setHamburgerOpen(!hamburgerOpen);
+    setHamburgerOpen(!hamburgerOpen)
   };
 
   const closeNav = () => {
-    setHamburgerOpen(false)
-  }
+    setHamburgerOpen(false);
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -33,11 +33,17 @@ const Nav = () => {
       <NavTitle>
         <StyledLink to={"/"}>PC INVENTORY</StyledLink>
       </NavTitle>
-      <MenuWrapper>
-        <NavList toggleMenu={hamburgerOpen} ref={ref}>
-          <StyledLink to={"/categories"} onClick={closeNav}>Categories</StyledLink>
-          <StyledLink to={"/manufacturers"} onClick={closeNav}>Manufacturers</StyledLink>
-          <StyledLink to={"/parts"} onClick={closeNav}>Parts</StyledLink>
+      <MenuWrapper ref={ref}>
+        <NavList toggleMenu={hamburgerOpen}>
+          <StyledLink to={"/categories"} onClick={closeNav}>
+            Categories
+          </StyledLink>
+          <StyledLink to={"/manufacturers"} onClick={closeNav}>
+            Manufacturers
+          </StyledLink>
+          <StyledLink to={"/parts"} onClick={closeNav}>
+            Parts
+          </StyledLink>
         </NavList>
         <HamburgerMenu onClick={toggleHamburger}>
           <Hamburger />
@@ -69,23 +75,20 @@ const NavList = styled.ul`
   flex-wrap: wrap;
   float: right;
   overflow: hidden;
-  gap: 1rem;
   @media (max-width: 750px) {
     display: ${(props) => (props.toggleMenu ? "flex" : "none")};
     font-size: 1.5rem;
-    gap: 3rem;
     border: 0.2rem solid rgb(255, 255, 255);
     border-radius: 0.5rem;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.9);
     height: 40%;
     width: 15rem;
-    margin-top: 50px;
     position: fixed;
-    right: 6%;
-    top: 0;
+    right: 7%;
+    top: 6%;
   }
 `;
 
